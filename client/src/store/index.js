@@ -151,6 +151,36 @@ export const useGlobalStore = () => {
         });
     }
 
+    store.createNewList = function () {
+        console.log("creating list..");
+        async function asyncCreateNewList(){
+            let response = await api.createPlaylist();
+            if (response.data.success) {
+                let playlist = response.data.playist;
+                // playlist.name = "New Playlist";
+                // async function updateList(playlist) {
+                //     response = await api.updatePlaylistById(playlist._id, playlist);
+                //     if (response.data.success) {
+                //         console.log("successfully created list!");
+                //     }
+                // }
+                storeReducer({
+                    type: GlobalStoreActionType.CREATE_NEW_LIST,
+                    payload: {
+                        playlist: playlist
+                    }
+                });
+                store.loadIdNamePairs();
+                console.log("created list");
+            }
+        }
+        asyncCreateNewList();
+        // storeReducer({
+        //     type: GlobalStoreActionType.CREATE_NEW_LIST,
+        //     payload: {}
+        // });
+    }
+
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = function () {
         async function asyncLoadIdNamePairs() {
@@ -161,6 +191,7 @@ export const useGlobalStore = () => {
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
                 });
+                console.log("API SUCCESSFULLY GOT LIST PAIRS");
             }
             else {
                 console.log("API FAILED TO GET THE LIST PAIRS");
