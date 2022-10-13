@@ -11,6 +11,7 @@ import { GlobalStoreContext } from '../store'
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [ editActive, setEditActive ] = useState(false);
+    const [ markedForDeletion, setMarkedForDeletion] = useState(false);
     const [ text, setText ] = useState("");
     store.history = useHistory();
     const { idNamePair, selected } = props;
@@ -37,6 +38,24 @@ function ListCard(props) {
             store.setIsListNameEditActive();
         }
         setEditActive(newActive);
+    }
+
+    function handleMarkForDeletion(event) {
+        event.stopPropagation();
+        toggleMarkedForDeletion();
+    }
+
+    function toggleMarkedForDeletion() {
+        let newMarkedForDeletion = !markedForDeletion;
+        // if(newMarkedForDeletion) {
+        //     store.setIsListMarkedForDeletion(listId);
+        // }
+        setMarkedForDeletion(newMarkedForDeletion)
+    }
+
+    function handleDialogClose(event){
+        event.stopPropagation();
+        setMarkedForDeletion(false);
     }
 
     function handleKeyPress(event) {
@@ -75,6 +94,7 @@ function ListCard(props) {
                 type="button"
                 id={"delete-list-" + idNamePair._id}
                 className="list-card-button"
+                onClick={handleMarkForDeletion}
                 value={"\u2715"}
             />
             <input
@@ -85,6 +105,23 @@ function ListCard(props) {
                 onClick={handleToggleEdit}
                 value={"\u270E"}
             />
+            <dialog open={markedForDeletion} className="dialog-box">
+                    Are you sure you would like to delete <b>{idNamePair.name}</b>?
+                
+                <input
+                    type="button"
+                    id={"cancel-delete-list-" + idNamePair._id}
+                    className="list-card-button"
+                    value={"\u2715"}
+                    onClick={handleDialogClose}
+                />
+                <input
+                    type="button"
+                    id={"confirm-delete-list-" + idNamePair._id}
+                    className="list-card-button"
+                    value={"✓"}
+                />
+            </dialog>
         </div>;
 
     if (editActive) {
@@ -98,6 +135,7 @@ function ListCard(props) {
                 defaultValue={idNamePair.name}
             />;
     }
+
     return (
         cardElement
     );

@@ -153,7 +153,13 @@ input {
 }
 
 /* THIS STYLE SHEET MANAGES STYLE FOR OUR MODAL, i.e. DIALOG BOX */
+.dialog-box {
+  background: var(--swatch-complement);
+  align-items: center;
+  justify-content: center;
 
+
+}
 .modal {
   position: fixed;
   top: 0;

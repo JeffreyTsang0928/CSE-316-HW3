@@ -18,6 +18,7 @@ export const GlobalStoreActionType = {
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
+    MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -157,13 +158,7 @@ export const useGlobalStore = () => {
             let response = await api.createPlaylist();
             if (response.data.success) {
                 let playlist = response.data.playist;
-                // playlist.name = "New Playlist";
-                // async function updateList(playlist) {
-                //     response = await api.updatePlaylistById(playlist._id, playlist);
-                //     if (response.data.success) {
-                //         console.log("successfully created list!");
-                //     }
-                // }
+               
                 storeReducer({
                     type: GlobalStoreActionType.CREATE_NEW_LIST,
                     payload: {
@@ -175,10 +170,7 @@ export const useGlobalStore = () => {
             }
         }
         asyncCreateNewList();
-        // storeReducer({
-        //     type: GlobalStoreActionType.CREATE_NEW_LIST,
-        //     payload: {}
-        // });
+      
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -228,11 +220,15 @@ export const useGlobalStore = () => {
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
-    store.setlistNameActive = function () {
+    store.setIsListNameEditActive = function () {
         storeReducer({
             type: GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE,
             payload: null
         });
+    }
+
+    store.setIsListMarkedForDeletion = function () {
+
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
