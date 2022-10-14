@@ -47,10 +47,14 @@ function ListCard(props) {
 
     function toggleMarkedForDeletion() {
         let newMarkedForDeletion = !markedForDeletion;
-        // if(newMarkedForDeletion) {
-        //     store.setIsListMarkedForDeletion(listId);
-        // }
         setMarkedForDeletion(newMarkedForDeletion)
+    }
+
+    function handleDeleteList(event){
+        event.stopPropagation();
+        let id = event.target.id.substring("confirm-delete-list-".length);
+        store.deleteList(id);
+        toggleMarkedForDeletion();
     }
 
     function handleDialogClose(event){
@@ -120,6 +124,7 @@ function ListCard(props) {
                     id={"confirm-delete-list-" + idNamePair._id}
                     className="list-card-button"
                     value={"✓"}
+                    onClick={handleDeleteList}
                 />
             </dialog>
         </div>;

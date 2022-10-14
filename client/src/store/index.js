@@ -18,7 +18,7 @@ export const GlobalStoreActionType = {
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
-    MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION"
+    DELETE_LIST: "DELETE_LIST"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -77,11 +77,11 @@ export const useGlobalStore = () => {
                 });
             }
             // PREPARE TO DELETE A LIST
-            case GlobalStoreActionType.MARK_LIST_FOR_DELETION: {
+            case GlobalStoreActionType.DELETE_LIST: {
                 return setStore({
                     idNamePairs: store.idNamePairs,
                     currentList: null,
-                    newListCounter: store.newListCounter,
+                    newListCounter: store.newListCounter - 1,
                     listNameActive: false
                 });
             }
@@ -117,7 +117,7 @@ export const useGlobalStore = () => {
         async function asyncChangeListName(id) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
-                let playlist = response.data.playist;
+                let playlist = response.data.playlist;
                 playlist.name = newName;
                 async function updateList(playlist) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
@@ -157,7 +157,7 @@ export const useGlobalStore = () => {
         async function asyncCreateNewList(){
             let response = await api.createPlaylist();
             if (response.data.success) {
-                let playlist = response.data.playist;
+                let playlist = response.data.playlist;
                
                 storeReducer({
                     type: GlobalStoreActionType.CREATE_NEW_LIST,
@@ -227,8 +227,8 @@ export const useGlobalStore = () => {
         });
     }
 
-    store.setIsListMarkedForDeletion = function () {
-
+    store.deleteList = function (id) {
+        console.log("preparing to delete list with id: " + id );
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
