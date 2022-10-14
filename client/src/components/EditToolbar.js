@@ -23,8 +23,18 @@ function EditToolbar() {
         history.push("/");
         store.closeCurrentList();
     }
+    function handleAddSong(){
+        console.log("pressed add song button");
+        if(store.currentList){
+            console.log("there is a currentList");
+            
+        }
+        else{
+            console.log("there is no currentList");
+        }
+    }
     let editStatus = false;
-    if (store.isListNameEditActive) {
+    if (store.isListNameEditActive && store.currentList) {
         editStatus = true;
     }
     return (
@@ -35,6 +45,7 @@ function EditToolbar() {
                 disabled={editStatus}
                 value="+"
                 className={enabledButtonClass}
+                onClick={handleAddSong}
             />
             <input
                 type="button"

@@ -50,6 +50,11 @@ deletePlaylist = async (req,res) => {
     }).catch(err => console.log(err))
 }
 
+createNewSong = async (req,res) => {
+    const body = req.body;
+    console.log("create song body: " + body);
+}
+
 getPlaylistById = async (req, res) => {
     await Playlist.findOne({ _id: req.params.id }, (err, list) => {
         if (err) {

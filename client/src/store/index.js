@@ -170,7 +170,11 @@ export const useGlobalStore = () => {
             }
         }
         asyncCreateNewList();
-      
+    }
+
+    store.createNewSong = function () {
+        //do something
+        
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -234,7 +238,7 @@ export const useGlobalStore = () => {
         async function asyncDeleteList(id){
             let response = await api.deletePlaylist(id);
             if(response.data.success){
-                //do something
+                //do something?? maybe
                 storeReducer({
                     type: GlobalStoreActionType.DELETE_LIST,
                     payload: null
