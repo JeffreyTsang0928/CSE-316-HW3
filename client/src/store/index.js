@@ -176,7 +176,9 @@ export const useGlobalStore = () => {
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = function () {
         async function asyncLoadIdNamePairs() {
+            console.log("attempting to load id name pairs (async)");
             const response = await api.getPlaylistPairs();
+            console.log("sent api request");
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
                 storeReducer({
@@ -229,6 +231,18 @@ export const useGlobalStore = () => {
 
     store.deleteList = function (id) {
         console.log("preparing to delete list with id: " + id );
+        async function asyncDeleteList(id){
+            let response = await api.deletePlaylist(id);
+            if(response.data.success){
+                //do something
+                storeReducer({
+                    type: GlobalStoreActionType.DELETE_LIST,
+                    payload: null
+                });
+                store.loadIdNamePairs();
+            }
+        }
+        asyncDeleteList(id);
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT

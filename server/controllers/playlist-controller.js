@@ -39,6 +39,17 @@ createPlaylist = (req, res) => {
             })
         })
 }
+
+deletePlaylist = async (req,res) => {
+    await Playlist.deleteOne({ _id: req.params.id }, (err, list) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+
+        return res.status(200).json({ success: true, playlist: list })
+    }).catch(err => console.log(err))
+}
+
 getPlaylistById = async (req, res) => {
     await Playlist.findOne({ _id: req.params.id }, (err, list) => {
         if (err) {
@@ -67,9 +78,14 @@ getPlaylistPairs = async (req, res) => {
             return res.status(400).json({ success: false, error: err})
         }
         if (!playlists.length) {
-            return res
-                .status(404)
-                .json({ success: false, error: 'Playlists not found'})
+            // console.log("no playlists!");
+            // return res
+            //     .status(404)
+            //     .json({ success: false, error: 'Playlists not found'})
+            
+            //im going to just return an empty list here cause idk what to do, in what cases would this give you an error
+
+            return res.status(200).json({ success: true, idNamePairs: []});
         }
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
@@ -91,5 +107,6 @@ module.exports = {
     createPlaylist,
     getPlaylists,
     getPlaylistPairs,
-    getPlaylistById
+    getPlaylistById,
+    deletePlaylist
 }
