@@ -40,6 +40,17 @@ createPlaylist = (req, res) => {
         })
 }
 
+updatePlaylistById = async (req,res) =>{
+    let playlist=req.body.playlist
+    await Playlist.findOneAndReplace({ _id: req.body.id }, {'name': playlist.name, 'songs': playlist.songs}, null, (err, list) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+
+        return res.status(200).json({ success: true, playlist: list })
+    }).catch(err => console.log(err))
+}
+
 deletePlaylist = async (req,res) => {
     await Playlist.deleteOne({ _id: req.params.id }, (err, list) => {
         if (err) {
@@ -120,5 +131,6 @@ module.exports = {
     getPlaylistPairs,
     getPlaylistById,
     deletePlaylist,
-    createNewSong
+    createNewSong,
+    updatePlaylistById
 }
