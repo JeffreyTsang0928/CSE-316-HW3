@@ -18,7 +18,8 @@ export const GlobalStoreActionType = {
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
-    DELETE_LIST: "DELETE_LIST"
+    DELETE_LIST: "DELETE_LIST",
+    RELOAD_CURRENT_LIST: "RELOAD_CURRENT_LIST"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -75,6 +76,16 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: false
                 });
+            }
+
+            //RELOADS THE CURRENT LIST TO UPDATE SONG DISPLAY???
+            case GlobalStoreActionType.RELOAD_CURRENT_LIST: {
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false
+                })
             }
             // PREPARE TO DELETE A LIST
             case GlobalStoreActionType.DELETE_LIST: {
@@ -177,7 +188,17 @@ export const useGlobalStore = () => {
         async function asyncCreateNewSong(id){
             let response = await api.createNewSong(id);
             if (response.data.success) {
-                //do something
+                async function asyncUpdateCurrentList(id){
+                    response = await api.getPlaylistById(id);
+                    if(response.data.success){
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: response.data.playlist
+                        })
+                        console.log(JSON.stringify(store.currentList));
+                    }
+                }
+                asyncUpdateCurrentList(id);
             }
         }
         asyncCreateNewSong(id); 
