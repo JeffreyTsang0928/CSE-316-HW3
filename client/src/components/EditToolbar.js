@@ -26,8 +26,8 @@ function EditToolbar() {
     function handleAddSong(){
         console.log("pressed add song button");
         if(store.currentList){
-            console.log("there is a currentList");
-            
+            console.log("there is a currentList, adding new song");
+            store.createNewSong(store.currentList._id);
         }
         else{
             console.log("there is no currentList");

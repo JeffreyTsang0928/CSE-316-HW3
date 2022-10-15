@@ -26,7 +26,7 @@ export const getPlaylistPairs = () => api.get('playlistpairs')
 export const getPlaylistById = (id) => api.get(`/playlist/${id}`)
 export const createPlaylist = () => api.post('/playlist', {name: "New Playlist",songs: []}) //am i doing this right
 export const deletePlaylist = (id) => api.delete('/playlist/' + id) //lol i cant do the dollar sign thing
-//export const createNewSong
+export const createNewSong = (id) => api.put('/playlist/' + id)
 
 const apis = {
     getAllPlaylists,
@@ -34,7 +34,7 @@ const apis = {
     getPlaylistById,
     createPlaylist,
     deletePlaylist,
-    // createNewSong
+    createNewSong
 }
 
 export default apis

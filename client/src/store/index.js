@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
 import jsTPS from '../common/jsTPS'
-import api from '../api'
+import api, { createNewSong } from '../api'
 export const GlobalStoreContext = createContext({});
 /*
     This is our global data store. Note that it uses the Flux design pattern,
@@ -172,9 +172,16 @@ export const useGlobalStore = () => {
         asyncCreateNewList();
     }
 
-    store.createNewSong = function () {
-        //do something
-        
+    store.createNewSong = function (id) {
+        console.log("creating new song in store in list id: " + id);
+        async function asyncCreateNewSong(id){
+            let response = await api.createNewSong(id);
+            if (response.data.success) {
+                //do something
+            }
+        }
+        asyncCreateNewSong(id); 
+        console.log("bababooey");
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
