@@ -12,8 +12,12 @@ function SongCard(props) {
     function handleRemoveSong(event){
         event.stopPropagation();
         console.log("current modal state: " + store.deleteSongModalActive);
-        store.toggleDeleteSongModal();
-        // let songIndex = event.target.id.substring("remove-song-".length);
+        let songIndex = event.target.id.substring("remove-song-".length);
+        // store.setDeleteSongTitle(songIndex);
+        // console.log("set the delete song index to :" + store.deleteSongIndex);
+        store.enableDeleteSongModal(songIndex); 
+
+        
         // console.log("removing song at index: " + songIndex);
         // store.removeSong(songIndex);
     }

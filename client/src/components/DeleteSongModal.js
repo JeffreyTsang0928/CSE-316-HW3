@@ -1,36 +1,48 @@
 import { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { GlobalStoreContext } from '../store'
+import { GlobalStoreActionType, GlobalStoreContext } from '../store'
 
 function DeleteSongModal(props) {
-    const store = useContext(GlobalStoreContext);
-    const { song, index } = props;
+    const {store, storeReducer} = useContext(GlobalStoreContext);
+    const { song, title} = props;
     let songTitle = "";
-    if(song){
-        songTitle=song.title;
+    if(title){
+        songTitle=title;
     }
-    let visible=store.deleteSongModalActive;
+    let className = 'modal';
+    // let visible=store.deleteSongModalActive;
+    if(store.deleteSongModalActive && store.currentList){
+        className+=' is-visible';
+    }
+
+    function handleConfirmButton(event){
+        event.stopPropagation();
+        // console.log("removing song at index: " + songIndex);
+        store.removeSong(store.deleteSongIndex);
+        store.cancelDeleteSongModal();
+    }
+
+    function handleCancelButton(event){
+        event.stopPropagation();
+        store.cancelDeleteSongModal();
+    }
     return (
-        <div
-        id="remove-song-modal"
-        className='modal'
-        data-animation="slideInOutLeft"
-        visible={visible}>
-        <div className="modal-root" id='verify-remove-song-root'>
-            <div className="modal-north">
-                Remove {songTitle}?
+        
+        <div className="modal-dialog" id='verify-remove-song-root' data-animation="slideInOutLeft">
+            <div className="modal-header">
+                Remove song?
             </div>
-            <div className="modal-center">
-                <div className="modal-center-content">
-                    Are you sure you wish to permanently remove {songTitle} from the playlist?
+            <div className="modal-text">
+                <div className="modal-center-content" >
+                    Are you sure you wish to permanently remove <b>{songTitle}</b> from the playlist?
                 </div>
             </div>
-            <div className="modal-south">
-                <input type="button" id="remove-song-confirm-button" className="modal-button"  value='Confirm' />
-                <input type="button" id="remove-song-cancel-button" className="modal-button"  value='Cancel' />
+            <div className="modal-footer">
+                <input type="button" id="remove-song-confirm-button" className="modal-button"  value='Confirm' onClick={handleConfirmButton} />
+                <input type="button" id="remove-song-cancel-button" className="modal-button"  value='Cancel' onClick={handleCancelButton} />
             </div>
         </div>
-    </div>
+
     );
 }
 

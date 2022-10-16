@@ -35,14 +35,45 @@ function EditToolbar() {
             console.log("there is no currentList");
         }
     }
+
+    let modalClassName="modal";
+    if(store.deleteSongModalActive && store.currentList){
+        modalClassName+=' is-visible';
+    }
+
+    let songTitle="err";
+    if(store.deleteSongTitle){
+        songTitle=store.deleteSongTitle;
+    }
+
     let editStatus = false;
     if (store.isListNameEditActive && store.currentList) {
         editStatus = true;
     }
+    // let song=null;
+    // if(store.currentList && store.currentList.songs[store.deleteSongIndex]){
+    //     song=store.currentList.songs[store.deleteSongIndex];
+    //     console.log("SONG------------------------------");
+    //     console.log(song);
+    // }
+    // else{
+    //     if(!store.currentList){
+    //         console.log("currentlist is null");
+    //     }
+    //     else if(!store.currentList.songs[store.deleteSongIndex]){
+    //         console.log("currentList.songs[index] is null...");
+    //     }
+    // }
     //idk if delete song modal belongs here
     return (
         <span id="edit-toolbar">
-            <DeleteSongModal /> 
+            <div
+            id="remove-song-modal"
+            className={modalClassName}
+            data-animation="slideInOutLeft"
+            >
+                <DeleteSongModal title={songTitle} />
+            </div>
             <input
                 type="button"
                 id='add-song-button'
