@@ -34,7 +34,8 @@ export const useGlobalStore = () => {
         idNamePairs: [],
         currentList: null,
         newListCounter: 0,
-        listNameActive: false
+        listNameActive: false,
+        deleteSongModalActive: false
     });
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
@@ -48,7 +49,8 @@ export const useGlobalStore = () => {
                     idNamePairs: payload.idNamePairs,
                     currentList: payload.playlist,
                     newListCounter: store.newListCounter,
-                    listNameActive: false
+                    listNameActive: false,
+                    deleteSongModalActive: false
                 });
             }
             // STOP EDITING THE CURRENT LIST
@@ -57,7 +59,8 @@ export const useGlobalStore = () => {
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     newListCounter: store.newListCounter,
-                    listNameActive: false
+                    listNameActive: false,
+                    deleteSongModalActive: false
                 })
             }
             // CREATE A NEW LIST
@@ -66,7 +69,8 @@ export const useGlobalStore = () => {
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     newListCounter: store.newListCounter + 1,
-                    listNameActive: false
+                    listNameActive: false,
+                    deleteSongModalActive: false
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -75,7 +79,8 @@ export const useGlobalStore = () => {
                     idNamePairs: payload,
                     currentList: null,
                     newListCounter: store.newListCounter,
-                    listNameActive: false
+                    listNameActive: false,
+                    deleteSongModalActive: false
                 });
             }
 
@@ -85,7 +90,8 @@ export const useGlobalStore = () => {
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
-                    listNameActive: false
+                    listNameActive: false,
+                    deleteSongModalActive: false
                 })
             }
             // PREPARE TO DELETE A LIST
@@ -94,7 +100,8 @@ export const useGlobalStore = () => {
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     newListCounter: store.newListCounter - 1,
-                    listNameActive: false
+                    listNameActive: false,
+                    deleteSongModalActive: false
                 });
             }
             // UPDATE A LIST
@@ -103,7 +110,8 @@ export const useGlobalStore = () => {
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     newListCounter: store.newListCounter,
-                    listNameActive: false
+                    listNameActive: false,
+                    deleteSongModalActive: false
                 });
             }
             // START EDITING A LIST NAME
@@ -112,8 +120,18 @@ export const useGlobalStore = () => {
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     newListCounter: store.newListCounter,
-                    listNameActive: true
+                    listNameActive: true,
+                    deleteSongModalActive: false
                 });
+            }
+            case GlobalStoreActionType.TOGGLE_DELETE_SONG_MODAL: {
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    deleteSongModalActive: !store.deleteSongModalActive
+                })
             }
             default:
                 return store;

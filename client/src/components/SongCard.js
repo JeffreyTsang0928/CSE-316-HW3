@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { GlobalStoreContext } from '../store'
+import { GlobalStoreActionType, GlobalStoreContext } from '../store'
 
 function SongCard(props) {
-    const { store } = useContext(GlobalStoreContext);
+    const { store, storeReducer } = useContext(GlobalStoreContext);
 
     const { song, index } = props;
 
@@ -10,9 +10,14 @@ function SongCard(props) {
 
     function handleRemoveSong(event){
         event.stopPropagation();
-        let songIndex = event.target.id.substring("remove-song-".length);
-        console.log("removing song at index: " + songIndex);
-        store.removeSong(songIndex);
+        console.log("current modal state: " + store.deleteSongModalActive);
+        storeReducer({
+            type: GlobalStoreActionType.TOGGLE_DELETE_SONG_MODAL,
+            payload: null
+        });
+        // let songIndex = event.target.id.substring("remove-song-".length);
+        // console.log("removing song at index: " + songIndex);
+        // store.removeSong(songIndex);
     }
 
     let cardClass = "list-card unselected-list-card";

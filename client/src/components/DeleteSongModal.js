@@ -11,7 +11,8 @@ function DeleteSongModal(props) {
         <div
         id="remove-song-modal"
         className={modalClass}
-        data-animation="slideInOutLeft">
+        data-animation="slideInOutLeft"
+        visible={store.deleteSongModalActive}>
         <div className="modal-root" id='verify-remove-song-root'>
             <div className="modal-north">
                 Remove {songTitle}?
@@ -27,5 +28,7 @@ function DeleteSongModal(props) {
             </div>
         </div>
     </div>
-    )
+    );
 }
+
+export default DeleteSongModal;
