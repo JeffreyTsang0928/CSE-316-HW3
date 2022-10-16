@@ -5,6 +5,16 @@ function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
 
     const { song, index } = props;
+
+
+
+    function handleRemoveSong(event){
+        event.stopPropagation();
+        let songIndex = event.target.id.substring("remove-song-".length);
+        console.log("removing song at index: " + songIndex);
+        store.removeSong(songIndex);
+    }
+
     let cardClass = "list-card unselected-list-card";
     return (
         <div
@@ -24,6 +34,7 @@ function SongCard(props) {
                 id={"remove-song-" + index}
                 className="list-card-button"
                 value={"\u2715"}
+                onClick={handleRemoveSong}
             />
         </div>
     );

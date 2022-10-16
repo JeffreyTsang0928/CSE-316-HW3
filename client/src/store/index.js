@@ -19,7 +19,8 @@ export const GlobalStoreActionType = {
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     DELETE_LIST: "DELETE_LIST",
-    RELOAD_CURRENT_LIST: "RELOAD_CURRENT_LIST"
+    RELOAD_CURRENT_LIST: "RELOAD_CURRENT_LIST",
+    TOGGLE_DELETE_SONG_MODAL: "TOGGLE_DELETE_SONG_MODAL"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -203,6 +204,32 @@ export const useGlobalStore = () => {
         }
         asyncCreateNewSong(id); 
         console.log("bababooey");
+    }
+
+    store.removeSong = function (index) {
+        async function asyncRemoveSong(index){
+            let playlist = store.currentList
+            playlist.songs.splice(index, 1);
+            console.log(playlist.songs);
+            let response = await api.updatePlaylistById(playlist._id, playlist);
+            if(response.data.success) {
+                async function asyncUpdateCurrentList(id){
+                    response = await api.getPlaylistById(id);
+                    if(response.data.success){
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: response.data.playlist
+                        })
+                        console.log(JSON.stringify(store.currentList));
+                    }
+                }
+                asyncUpdateCurrentList(playlist._id);
+            }
+            else{
+                console.log("response failed.");
+            }
+        }
+        asyncRemoveSong(index);
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS

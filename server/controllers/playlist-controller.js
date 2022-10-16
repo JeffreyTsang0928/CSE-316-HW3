@@ -72,6 +72,16 @@ createNewSong = async (req,res) => {
     }).catch(err => console.log(err))
 }
 
+removeSong = async (req,res) => {
+    let songId = req.body.songId;
+    await Playlist.findOneAndUpdate({_id: req.params.id}, {$pull: {songs: {_id: songId}}}, (err, list) =>{
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        return res.status(200).json({ success: true})
+    }).catch(err => console.log(err))
+}
+
 getPlaylistById = async (req, res) => {
     await Playlist.findOne({ _id: req.params.id }, (err, list) => {
         if (err) {

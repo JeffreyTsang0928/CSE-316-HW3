@@ -23,8 +23,9 @@ function EditToolbar() {
         history.push("/");
         store.closeCurrentList();
     }
-    function handleAddSong(){
+    function handleAddSong(event){
         console.log("pressed add song button");
+        event.stopPropagation();
         if(store.currentList){
             console.log("there is a currentList, adding new song");
             store.createNewSong(store.currentList._id);
