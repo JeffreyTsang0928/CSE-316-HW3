@@ -1,7 +1,8 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import { useHistory } from 'react-router-dom'
-import DeleteSongModal from './DeleteSongModal';
+import DeleteSongModal from './DeleteSongModal'
+import EditSongModal from './EditSongModal'
 /*
     This toolbar is a functional React component that
     manages the undo/redo/close buttons.
@@ -36,9 +37,19 @@ function EditToolbar() {
         }
     }
 
-    let modalClassName="modal";
+    let deleteModalClassName="modal";
     if(store.deleteSongModalActive && store.currentList){
-        modalClassName+=' is-visible';
+        deleteModalClassName+=' is-visible';
+    }
+
+    let editModalClassName="modal";
+    if(store.editSongModalActive && store.currentList){
+        editModalClassName+=' is-visible'
+    }
+
+    let songEditing=null;
+    if(store.currSongEditing){
+        songEditing=store.currSongEditing;
     }
 
     let songTitle="err";
@@ -50,29 +61,21 @@ function EditToolbar() {
     if (store.isListNameEditActive && store.currentList) {
         editStatus = true;
     }
-    // let song=null;
-    // if(store.currentList && store.currentList.songs[store.deleteSongIndex]){
-    //     song=store.currentList.songs[store.deleteSongIndex];
-    //     console.log("SONG------------------------------");
-    //     console.log(song);
-    // }
-    // else{
-    //     if(!store.currentList){
-    //         console.log("currentlist is null");
-    //     }
-    //     else if(!store.currentList.songs[store.deleteSongIndex]){
-    //         console.log("currentList.songs[index] is null...");
-    //     }
-    // }
-    //idk if delete song modal belongs here
     return (
         <span id="edit-toolbar">
             <div
             id="remove-song-modal"
-            className={modalClassName}
+            className={deleteModalClassName}
             data-animation="slideInOutLeft"
             >
                 <DeleteSongModal title={songTitle} />
+            </div>
+            <div
+            id="edit-song-modal"
+            className={editModalClassName}
+            data-animation="slideInOutLeft"
+            >
+                <EditSongModal song={songEditing} />
             </div>
             <input
                 type="button"

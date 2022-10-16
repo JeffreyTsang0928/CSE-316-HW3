@@ -22,12 +22,21 @@ function SongCard(props) {
         // store.removeSong(songIndex);
     }
 
+    function handleClick(event){
+        if(event.detail===2){
+            console.log("double clicked a song at index: " + event.target.id.substring('song-'.length,event.target.id.search('-card')));
+            let songIndex = event.target.id.substring('song-'.length,event.target.id.search('-card'));
+            store.enableEditSongModal(songIndex);
+        }
+    }
+
     let cardClass = "list-card unselected-list-card";
     return (
         <div
             key={index}
             id={'song-' + index + '-card'}
             className={cardClass}
+            onClick={handleClick}
         >
             
             {index + 1}.
