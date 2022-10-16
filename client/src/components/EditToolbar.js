@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import { useHistory } from 'react-router-dom'
+import DeleteSongModal from './DeleteSongModal';
 /*
     This toolbar is a functional React component that
     manages the undo/redo/close buttons.
@@ -38,8 +39,10 @@ function EditToolbar() {
     if (store.isListNameEditActive && store.currentList) {
         editStatus = true;
     }
+    //idk if delete song modal belongs here
     return (
         <span id="edit-toolbar">
+            <DeleteSongModal /> 
             <input
                 type="button"
                 id='add-song-button'

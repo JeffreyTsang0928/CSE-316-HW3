@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { GlobalStoreActionType, GlobalStoreContext } from '../store'
 
+
 function SongCard(props) {
     const { store, storeReducer } = useContext(GlobalStoreContext);
 
@@ -11,10 +12,7 @@ function SongCard(props) {
     function handleRemoveSong(event){
         event.stopPropagation();
         console.log("current modal state: " + store.deleteSongModalActive);
-        storeReducer({
-            type: GlobalStoreActionType.TOGGLE_DELETE_SONG_MODAL,
-            payload: null
-        });
+        store.toggleDeleteSongModal();
         // let songIndex = event.target.id.substring("remove-song-".length);
         // console.log("removing song at index: " + songIndex);
         // store.removeSong(songIndex);
@@ -27,6 +25,7 @@ function SongCard(props) {
             id={'song-' + index + '-card'}
             className={cardClass}
         >
+            
             {index + 1}.
             <a
                 id={'song-' + index + '-link'}

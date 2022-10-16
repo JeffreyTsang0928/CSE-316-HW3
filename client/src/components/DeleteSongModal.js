@@ -5,14 +5,17 @@ import { GlobalStoreContext } from '../store'
 function DeleteSongModal(props) {
     const store = useContext(GlobalStoreContext);
     const { song, index } = props;
-    let songTitle=song.title;
-
+    let songTitle = "";
+    if(song){
+        songTitle=song.title;
+    }
+    let visible=store.deleteSongModalActive;
     return (
         <div
         id="remove-song-modal"
-        className={modalClass}
+        className='modal'
         data-animation="slideInOutLeft"
-        visible={store.deleteSongModalActive}>
+        visible={visible}>
         <div className="modal-root" id='verify-remove-song-root'>
             <div className="modal-north">
                 Remove {songTitle}?
@@ -23,8 +26,8 @@ function DeleteSongModal(props) {
                 </div>
             </div>
             <div className="modal-south">
-                <input type="button" id="remove-song-confirm-button" className="modal-button" onClick={this.handleConfirmRemoveSong} value='Confirm' />
-                <input type="button" id="remove-song-cancel-button" className="modal-button" onClick={this.handleCancelRemoveSong} value='Cancel' />
+                <input type="button" id="remove-song-confirm-button" className="modal-button"  value='Confirm' />
+                <input type="button" id="remove-song-cancel-button" className="modal-button"  value='Cancel' />
             </div>
         </div>
     </div>

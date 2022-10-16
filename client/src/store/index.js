@@ -173,6 +173,7 @@ export const useGlobalStore = () => {
         }
         asyncChangeListName(id);
     }
+    
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
     store.closeCurrentList = function () {
@@ -200,6 +201,13 @@ export const useGlobalStore = () => {
             }
         }
         asyncCreateNewList();
+    }
+
+    store.toggleDeleteSongModal = function () {
+        storeReducer({
+            type: GlobalStoreActionType.TOGGLE_DELETE_SONG_MODAL,
+            payload: null
+        });
     }
 
     store.createNewSong = function (id) {
