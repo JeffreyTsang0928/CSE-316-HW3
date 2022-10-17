@@ -48,7 +48,8 @@ export const useGlobalStore = () => {
         currSongEditing: null,
         editingTitle: "",
         editingArtist: "",
-        editingYT: ""
+        editingYT: "",
+        currSongEditingIndex: null
     });
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
@@ -66,7 +67,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 });
             }
             // STOP EDITING THE CURRENT LIST
@@ -79,7 +84,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 })
             }
             // CREATE A NEW LIST
@@ -92,7 +101,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -105,7 +118,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 });
             }
 
@@ -119,7 +136,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 })
             }
             // PREPARE TO DELETE A LIST
@@ -132,7 +153,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 });
             }
             // UPDATE A LIST
@@ -145,7 +170,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 });
             }
             // START EDITING A LIST NAME
@@ -158,7 +187,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: store.deleteSongTitle,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 });
             }
             case GlobalStoreActionType.ENABLE_DELETE_SONG_MODAL: {
@@ -171,7 +204,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: true,
                     deleteSongTitle: payload,
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 })
             }
 
@@ -184,7 +221,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: "none",
                     editSongModalActive: false,
-                    currSongEditing: null
+                    currSongEditing: null,
+                    editingTitle: "",
+                    editingArtist: "",
+                    editingYT: "",
+                    currSongEditingIndex: null
                 })
             }
 
@@ -197,10 +238,11 @@ export const useGlobalStore = () => {
                     deleteSongModalActive: false,
                     deleteSongTitle: "none",
                     editSongModalActive: true,
-                    currSongEditing: payload,
-                    editingTitle: payload.title,
-                    editingArtist: payload.artist,
-                    editingYT: payload.youTubeId
+                    currSongEditing: payload.song,
+                    editingTitle: payload.song.title,
+                    editingArtist: payload.song.artist,
+                    editingYT: payload.song.youTubeId,
+                    currSongEditingIndex: payload.index
                 })
             }
 
@@ -216,7 +258,8 @@ export const useGlobalStore = () => {
                     currSongEditing: null,
                     editingTitle: null,
                     editingArtist: null,
-                    editingYT: null
+                    editingYT: null,
+                    currSongEditingIndex: null
                 })
             }
 
@@ -232,7 +275,8 @@ export const useGlobalStore = () => {
                     currSongEditing: store.currSongEditing,
                     editingTitle: payload,
                     editingArtist: store.editingArtist,
-                    editingYT: store.editingYT
+                    editingYT: store.editingYT,
+                    currSongEditingIndex: store.currSongEditingIndex
                 })
             }
 
@@ -248,7 +292,8 @@ export const useGlobalStore = () => {
                     currSongEditing: store.currSongEditing,
                     editingTitle: store.editingTitle,
                     editingArtist: payload,
-                    editingYT: store.editingYT
+                    editingYT: store.editingYT,
+                    currSongEditingIndex: store.currSongEditingIndex
                 })
             }
 
@@ -264,7 +309,8 @@ export const useGlobalStore = () => {
                     currSongEditing: store.currSongEditing,
                     editingTitle: store.editingTitle,
                     editingArtist: store.editingArtist,
-                    editingYT: payload
+                    editingYT: payload,
+                    currSongEditingIndex: store.currSongEditingIndex
                 })
             }
 
@@ -363,7 +409,10 @@ export const useGlobalStore = () => {
         console.log("song sent to enableEditSongModal: " +song.title );
         storeReducer({
             type: GlobalStoreActionType.ENABLE_EDIT_SONG_MODAL,
-            payload: song
+            payload: {
+                song: song,
+                index: songIndex
+            }
         })
     }
 
