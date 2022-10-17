@@ -55,7 +55,7 @@ function EditSongModal(props){
                     <input id="edit-song-modal-title-textfield" className='modal-textfield' type="text" value={store.editingTitle} onChange={handleEditSongTitle} />
                     <div id="artist-prompt" className="modal-prompt">Artist:</div>
                     <input id="edit-song-modal-artist-textfield" className='modal-textfield' type="text" value={store.editingArtist} onChange={handleEditSongArtist} />
-                    <div id="you-tube-id-prompt" className="modal-prompt">You Tube Id:</div>
+                    <div id="you-tube-id-prompt" className="modal-prompt">YouTube Id:</div>
                     <input id="edit-song-modal-youTubeId-textfield" className='modal-textfield' type="text" value={store.editingYT} onChange={handleEditSongYT}/>
                 </div>
             </div>

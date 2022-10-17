@@ -21,6 +21,8 @@ function PlaylistCards() {
                     key={'playlist-song-' + (index)}
                     index={index}
                     song={song}
+                    isDragging={index==store.songIndexIsDragging}
+                    draggedTo={index==store.songIndexDraggedTo}
                 />
             ))
         }

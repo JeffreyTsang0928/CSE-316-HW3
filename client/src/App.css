@@ -70,13 +70,17 @@ body {
   background-color: var(--swatch-primary);
 }
 
+#playlist-selector-heading {
+  font-size: 36px;
+}
 .playlister-button, .playlister-button-disabled {
   font-size:36pt;
-  border-width: 0px;
   float:left;
   color: black;
   cursor: pointer;
   opacity: 100%;
+  border-width: 2px;
+  border-color: black;
 }
 
 .playlister-button:hover {
@@ -118,6 +122,16 @@ body {
   background-color: #cccccc;
   color: #666666;
   pointer-events: none;
+}
+
+.unselected-list-card-dragged-to {
+  background-color: black;
+  color: white;
+}
+
+.list-card-is-dragging {
+  color: white;
+  opacity: 0.75;
 }
 
 .unselected-list-card:hover {
