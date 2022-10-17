@@ -897,9 +897,9 @@ export const useGlobalStore = () => {
 
     store.removeSongFromTransaction = function(index){
         async function asyncRemoveSong(index){
-            let playlist = store.currentList
+            let playlist = JSON.parse(JSON.stringify(store.currentList));
             playlist.songs.splice(index, 1);
-            console.log(playlist.songs);
+            console.log("REMOVING FROM THIS LIST: " + playlist.songs);
             let response = await api.updatePlaylistById(playlist._id, playlist);
             if(response.data.success) {
                 async function asyncUpdateCurrentList(id){
