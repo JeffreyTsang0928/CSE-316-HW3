@@ -18,7 +18,7 @@ export default class DeleteSong_Transaction extends jsTPS_Transaction{
 
     undoTransaction(){
         console.log("the old list has " + this.oldList.songs.length + " songs");
-        let list = this.oldList;
+        let list = JSON.parse(JSON.stringify(this.oldList));
         console.log("undoing delete song, reverting to: " + JSON.stringify(list));
         console.log("the old list has " + list.songs.length + " songs");
         let store = this.store;

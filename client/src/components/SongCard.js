@@ -59,7 +59,7 @@ function SongCard(props) {
     function handleDrop(event){
         event.preventDefault();
         console.log("dropped song");
-        let targetIndex = event.target.id.substring('song-'.length,event.target.id.search('-card'));
+        let targetIndex = Number(event.target.id.substring('song-'.length,event.target.id.search('-card')));
         let sourceIndex = Number(event.dataTransfer.getData("song"));
         console.log("dropped song: " + sourceIndex + " over " + targetIndex);
         store.moveSong(sourceIndex, targetIndex);
