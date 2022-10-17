@@ -20,15 +20,26 @@ function EditSongModal(props){
         store.cancelEditSongModal();
     }
 
+    function handleConfirm(event){
+        console.log(store.editingTitle);
+        store.updateSong();
+    }
+
     function handleEditSongTitle(event){
+        console.log("editing song title");
+        currTitle=event.target.value;
         store.updateSongName(event.target.value);
     }
 
     function handleEditSongArtist(event){
+        console.log("editing song artist");
+        currArtist=event.target.value;
         store.updateArtist(event.target.value);
     }
 
     function handleEditSongYT(event){
+        console.log("editing song yt");
+        currYT = event.target.value;
         store.updateYT(event.target.value);
     }
 
@@ -49,7 +60,7 @@ function EditSongModal(props){
                 </div>
             </div>
             <div className="modal-footer">
-                <input type="button" id="remove-song-confirm-button" className="modal-button"  value='Confirm' />
+                <input type="button" id="remove-song-confirm-button" className="modal-button"  value='Confirm' onClick={handleConfirm}/>
                 <input type="button" id="remove-song-cancel-button" className="modal-button"  value='Cancel' onClick={handleCancel}/>
             </div>
         </div>

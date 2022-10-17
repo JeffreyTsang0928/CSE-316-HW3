@@ -487,9 +487,33 @@ export const useGlobalStore = () => {
         console.log("bababooey");
     }
 
-    // store.updateSong = function (newSong) {
-    //     async function
-    // }
+    store.updateSong = function () {
+        console.log("data sent to update song: " + store.currSongEditing.title + " and index: " + store.currSongEditingIndex);
+        async function asyncUpdateSong(song,index){
+            let playlist=store.currentList;
+            playlist.songs[index] = song;
+            let response = await api.updatePlaylistById(playlist._id, playlist);
+            if(response.data.success) {
+                async function asyncUpdateCurrentList(id){
+                    response = await api.getPlaylistById(id);
+                    if(response.data.success){
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: response.data.playlist
+                        })
+                        console.log(JSON.stringify(store.currentList));
+                    }
+                }
+                asyncUpdateCurrentList(playlist._id);
+            }
+        }
+        let editedSong={
+            title: store.editingTitle,
+            artist: store.editingArtist,
+            youTubeId: store.editingYT
+        }
+        asyncUpdateSong(editedSong, store.currSongEditingIndex);
+    }
 
     store.removeSong = function (index) {
         async function asyncRemoveSong(index){
