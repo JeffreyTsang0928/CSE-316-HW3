@@ -360,6 +360,7 @@ export const useGlobalStore = () => {
 
     store.enableEditSongModal = function (songIndex) {
         let song = store.currentList.songs[songIndex];
+        console.log("song sent to enableEditSongModal: " +song.title );
         storeReducer({
             type: GlobalStoreActionType.ENABLE_EDIT_SONG_MODAL,
             payload: song
@@ -395,10 +396,13 @@ export const useGlobalStore = () => {
     }
 
     store.cancelEditSongModal = function() {
+        console.log("cancelling edit song modal!");
+        //this should set all the values back to their defaults, but idk if its working
         storeReducer({
             type: GlobalStoreActionType.CANCEL_EDIT_SONG_MODAL,
             payload: null
         });
+        console.log(store.editingTitle);
     }
 
     // store.setDeleteSongTitle = function(songIndex) {
@@ -433,6 +437,10 @@ export const useGlobalStore = () => {
         asyncCreateNewSong(id); 
         console.log("bababooey");
     }
+
+    // store.updateSong = function (newSong) {
+    //     async function
+    // }
 
     store.removeSong = function (index) {
         async function asyncRemoveSong(index){

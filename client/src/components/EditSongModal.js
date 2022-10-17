@@ -17,7 +17,6 @@ function EditSongModal(props){
     }
 
     function handleCancel(event){
-        event.stopPropagation();
         store.cancelEditSongModal();
     }
 
@@ -42,11 +41,11 @@ function EditSongModal(props){
             <div className="modal-text">
                 <div className="modal-center-content" >
                     <div id="title-prompt" className="modal-prompt">Title:</div>
-                    <input id="edit-song-modal-title-textfield" className='modal-textfield' type="text" defaultValue={currTitle} onChange={handleEditSongTitle} />
+                    <input id="edit-song-modal-title-textfield" className='modal-textfield' type="text" value={store.editingTitle} onChange={handleEditSongTitle} />
                     <div id="artist-prompt" className="modal-prompt">Artist:</div>
-                    <input id="edit-song-modal-artist-textfield" className='modal-textfield' type="text" defaultValue={currArtist} onChange={handleEditSongArtist} />
+                    <input id="edit-song-modal-artist-textfield" className='modal-textfield' type="text" value={store.editingArtist} onChange={handleEditSongArtist} />
                     <div id="you-tube-id-prompt" className="modal-prompt">You Tube Id:</div>
-                    <input id="edit-song-modal-youTubeId-textfield" className='modal-textfield' type="text" defaultValue={currYT} onChange={handleEditSongYT}/>
+                    <input id="edit-song-modal-youTubeId-textfield" className='modal-textfield' type="text" value={store.editingYT} onChange={handleEditSongYT}/>
                 </div>
             </div>
             <div className="modal-footer">
