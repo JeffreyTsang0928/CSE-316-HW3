@@ -1,6 +1,5 @@
 import jsTPS_Transaction from "../common/jsTPS.js"
-import api from '../api'
-import { GlobalStoreActionType, GlobalStoreContext } from '../store'
+
 
 
 export default class AddSong_Transaction extends jsTPS_Transaction{
@@ -8,7 +7,9 @@ export default class AddSong_Transaction extends jsTPS_Transaction{
         super();
         this.oldList = initOldList;
         this.id = initId;
-        this.store = initStore
+        this.store = initStore;
+        console.log("add song transaction made with this oldlist: " + JSON.stringify(this.oldList));
+        console.log("this transaction has: " + this.oldList.songs.length + " songs");
     }
 
     doTransaction(){
@@ -21,6 +22,7 @@ export default class AddSong_Transaction extends jsTPS_Transaction{
     undoTransaction(){
         let list = this.oldList;
         let store = this.store;
+        console.log("the old list has " + this.oldList.songs.length + " songs");
         console.log("undoing addsong transaction");
         store.updatePlaylistById(list);
     }

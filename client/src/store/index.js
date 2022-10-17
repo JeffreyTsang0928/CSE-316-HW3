@@ -2,6 +2,7 @@ import { createContext, useState } from 'react'
 import jsTPS from '../common/jsTPS'
 import api from '../api'
 import AddSong_Transaction from '../transactions/AddSong_Transaction';
+import DeleteSong_Transaction from '../transactions/DeleteSong_Transaction';
 export const GlobalStoreContext = createContext({});
 /*
     This is our global data store. Note that it uses the Flux design pattern,
@@ -721,6 +722,7 @@ export const useGlobalStore = () => {
     }
 
     store.updatePlaylistById = function(newPlaylist) {
+        console.log("updating playlistbyid with newPlaylist: " + JSON.stringify(newPlaylist));
         async function asyncUpdatePlaylistbyId(newPlaylist){
             let response = await api.updatePlaylistById(newPlaylist._id, newPlaylist);
             if(response.data.success){
@@ -806,6 +808,13 @@ export const useGlobalStore = () => {
     }
 
     store.removeSong = function (index) {
+
+        let oldList = JSON.parse(JSON.stringify(store.currentList)); //deep copy??
+        store.addDeleteSongTransaction(oldList, index);
+
+    }
+
+    store.removeSongFromTransaction = function(index){
         async function asyncRemoveSong(index){
             let playlist = store.currentList
             playlist.songs.splice(index, 1);
@@ -874,7 +883,7 @@ export const useGlobalStore = () => {
     }
     store.undo = function () {
         tps.undoTransaction();
-        let list = store.currentList;
+        // let list = store.currentList;
         // async function asyncUpdateCurrentList(id){
         //     let response = await api.getPlaylistById(id);
         //     if(response.data.success){
@@ -890,7 +899,7 @@ export const useGlobalStore = () => {
     }
     store.redo = function () {
         tps.doTransaction();
-        let list = store.currentList;
+        // let list = store.currentList;
         // async function asyncUpdateCurrentList(id){
         //     let response = await api.getPlaylistById(id);
         //     if(response.data.success){
@@ -932,18 +941,24 @@ export const useGlobalStore = () => {
     store.addAddSongTransaction = function(oldList, id){
         let transaction = new AddSong_Transaction(oldList,id, store);
         tps.addTransaction(transaction);
-        let list = store.currentList;
-        async function asyncUpdateCurrentList(id){
-            let response = await api.getPlaylistById(id);
-            if(response.data.success){
-                storeReducer({
-                    type: GlobalStoreActionType.SET_CURRENT_LIST,
-                    payload: response.data.playlist
-                })
-                console.log(JSON.stringify(store.currentList));
-            }
-        }
-        asyncUpdateCurrentList(list._id);
+        // let list = store.currentList;
+        // async function asyncUpdateCurrentList(id){
+        //     let response = await api.getPlaylistById(id);
+        //     if(response.data.success){
+        //         storeReducer({
+        //             type: GlobalStoreActionType.SET_CURRENT_LIST,
+        //             payload: response.data.playlist
+        //         })
+        //         console.log(JSON.stringify(store.currentList));
+        //     }
+        // }
+        // asyncUpdateCurrentList(list._id);
+    }
+
+    store.addDeleteSongTransaction = function(oldList, index){
+        console.log("adding delete song transaction with the following oldLIST: " + JSON.stringify(oldList));
+        let transaction = new DeleteSong_Transaction(oldList, index, store);
+        tps.addTransaction(transaction);
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT

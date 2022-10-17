@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { StrictMode, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalStoreActionType, GlobalStoreContext } from '../store'
 
@@ -17,9 +17,9 @@ function DeleteSongModal(props) {
 
     function handleConfirmButton(event){
         event.stopPropagation();
-        // console.log("removing song at index: " + songIndex);
+        console.log("removing song at index: " + store.deleteSongIndex);
         store.removeSong(store.deleteSongIndex);
-        store.cancelDeleteSongModal();
+        // store.cancelDeleteSongModal();
     }
 
     function handleCancelButton(event){
