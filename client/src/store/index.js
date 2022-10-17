@@ -3,6 +3,7 @@ import jsTPS from '../common/jsTPS'
 import api from '../api'
 import AddSong_Transaction from '../transactions/AddSong_Transaction';
 import DeleteSong_Transaction from '../transactions/DeleteSong_Transaction';
+import EditSong_Transaction from '../transactions/EditSong_Transaction';
 export const GlobalStoreContext = createContext({});
 /*
     This is our global data store. Note that it uses the Flux design pattern,
@@ -743,7 +744,50 @@ export const useGlobalStore = () => {
     }
 
     store.updateSong = function () {
-        console.log("data sent to update song: " + store.currSongEditing.title + " and index: " + store.currSongEditingIndex);
+        let editedSong={
+            title: store.editingTitle,
+            artist: store.editingArtist,
+            youTubeId: store.editingYT
+        }
+
+        let originalSong={
+            title: store.currSongEditing.title,
+            artist: store.currSongEditing.artist,
+            youTubeId: store.currSongEditing.youTubeId
+        }
+
+        let index = store.currSongEditingIndex;
+
+        store.addEditSongTransaction(editedSong, originalSong, index);
+
+        // console.log("data sent to update song: " + store.currSongEditing.title + " and index: " + store.currSongEditingIndex);
+        // async function asyncUpdateSong(song,index){
+        //     let playlist=store.currentList;
+        //     playlist.songs[index] = song;
+        //     let response = await api.updatePlaylistById(playlist._id, playlist);
+        //     if(response.data.success) {
+        //         async function asyncUpdateCurrentList(id){
+        //             response = await api.getPlaylistById(id);
+        //             if(response.data.success){
+        //                 storeReducer({
+        //                     type: GlobalStoreActionType.SET_CURRENT_LIST,
+        //                     payload: response.data.playlist
+        //                 })
+        //                 console.log(JSON.stringify(store.currentList));
+        //             }
+        //         }
+        //         asyncUpdateCurrentList(playlist._id);
+        //     }
+        // }
+        // let editedSong={
+        //     title: store.editingTitle,
+        //     artist: store.editingArtist,
+        //     youTubeId: store.editingYT
+        // }
+        // asyncUpdateSong(editedSong, store.currSongEditingIndex);
+    }
+
+    store.editSongFromTransaction = function(newSong, index) {
         async function asyncUpdateSong(song,index){
             let playlist=store.currentList;
             playlist.songs[index] = song;
@@ -762,12 +806,7 @@ export const useGlobalStore = () => {
                 asyncUpdateCurrentList(playlist._id);
             }
         }
-        let editedSong={
-            title: store.editingTitle,
-            artist: store.editingArtist,
-            youTubeId: store.editingYT
-        }
-        asyncUpdateSong(editedSong, store.currSongEditingIndex);
+        asyncUpdateSong(newSong, index);
     }
 
     store.moveSong = function(sourceIndex, targetIndex){
@@ -958,6 +997,11 @@ export const useGlobalStore = () => {
     store.addDeleteSongTransaction = function(oldList, index){
         console.log("adding delete song transaction with the following oldLIST: " + JSON.stringify(oldList));
         let transaction = new DeleteSong_Transaction(oldList, index, store);
+        tps.addTransaction(transaction);
+    }
+
+    store.addEditSongTransaction = function(editedSong, originalSong, editIndex){
+        let transaction = new EditSong_Transaction(editedSong, originalSong, editIndex, store);
         tps.addTransaction(transaction);
     }
 
