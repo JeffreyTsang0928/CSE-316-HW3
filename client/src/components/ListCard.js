@@ -105,19 +105,19 @@ function ListCard(props) {
             }
         }
 
-        // if(store.listNameActive && !(idNamePair._id === store.listIdBeingEdited)){
-        //     console.log("listName is active! ");
-        //     console.log("idnamepair is NOT equal to the one in store in playlist with id: " + idNamePair._id + "when comparing to: " + store.listIdBeingEdited);
-        //     setListCardButtonClassName(listCardButtonClassName + " disabled");
-        //     if(editActive){
-        //         setEditActive(!editActive)
-        //     }
-        // }
-        // else{
-        //     console.log("idnamepair IS equal to the one in store in playlist with id: " + idNamePair._id + "when comparing to: " + store.listIdBeingEdited);
-        //     setListCardButtonClassName("list-card-button");
-        //     // toggleEdit();
-        // }
+        if(store.listNameActive && !(idNamePair._id === store.listIdBeingEdited)){
+            console.log("listName is active! ");
+            console.log("idnamepair is NOT equal to the one in store in playlist with id: " + idNamePair._id + "when comparing to: " + store.listIdBeingEdited);
+            setListCardButtonClassName(listCardButtonClassName + " disabled");
+            if(editActive){
+                setEditActive(!editActive)
+            }
+        }
+        else{
+            console.log("idnamepair IS equal to the one in store in playlist with id: " + idNamePair._id + "when comparing to: " + store.listIdBeingEdited);
+            setListCardButtonClassName("list-card-button");
+            // toggleEdit();
+        }
         }, [store.newPlaylistId]
     );
 
