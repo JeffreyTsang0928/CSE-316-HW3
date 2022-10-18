@@ -14,6 +14,7 @@ function EditToolbar() {
     const history = useHistory();
 
     let enabledButtonClass = "playlister-button";
+    let disabledButtonClass = "playlister-button disabled";
 
     function handleUndo() {
         store.undo();
@@ -61,6 +62,13 @@ function EditToolbar() {
     if (store.isListNameEditActive && store.currentList) {
         editStatus = true;
     }
+
+    let hasTransactionToRedo = store.hasTransactionToRedo();
+    let hasTransactionToUndo = store.hasTransactionToUndo();
+    let modalVisible = store.deleteSongModalActive || store.editSongModalActive;
+    let listOpen = store.currentList
+    
+
     return (
         <span id="edit-toolbar">
             <div
@@ -82,7 +90,7 @@ function EditToolbar() {
                 id='add-song-button'
                 disabled={editStatus}
                 value="+"
-                className={enabledButtonClass}
+                className={!modalVisible && listOpen? enabledButtonClass : disabledButtonClass}
                 onClick={handleAddSong}
             />
             <input
@@ -90,7 +98,7 @@ function EditToolbar() {
                 id='undo-button'
                 disabled={editStatus}
                 value="⟲"
-                className={enabledButtonClass}
+                className={!modalVisible && hasTransactionToUndo? enabledButtonClass:disabledButtonClass}
                 onClick={handleUndo}
             />
             <input
@@ -98,7 +106,7 @@ function EditToolbar() {
                 id='redo-button'
                 disabled={editStatus}
                 value="⟳"
-                className={enabledButtonClass}
+                className={!modalVisible && hasTransactionToRedo? enabledButtonClass:disabledButtonClass}
                 onClick={handleRedo}
             />
             <input
@@ -106,7 +114,7 @@ function EditToolbar() {
                 id='close-button'
                 disabled={editStatus}
                 value="&#x2715;"
-                className={enabledButtonClass}
+                className={!modalVisible && listOpen? enabledButtonClass : disabledButtonClass}
                 onClick={handleClose}
             />
         </span>);

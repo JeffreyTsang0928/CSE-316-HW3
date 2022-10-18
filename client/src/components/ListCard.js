@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GlobalStoreContext } from '../store'
 /*
@@ -12,9 +12,13 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [ editActive, setEditActive ] = useState(false);
     const [ markedForDeletion, setMarkedForDeletion] = useState(false);
-    const [ text, setText ] = useState("");
     store.history = useHistory();
-    const { idNamePair, selected } = props;
+    const { idNamePair, selected, newListId } = props;
+    const [ text, setText ] = useState(props.idNamePair.name);
+    const [ listCardButtonClassName, setListCardButtonClassName] = useState("list-card-button")
+    
+    // let newListId = store.newPlaylistId;
+
 
     function handleLoadList(event) {
         if (!event.target.disabled) {
@@ -29,25 +33,31 @@ function ListCard(props) {
 
     function handleToggleEdit(event) {
         event.stopPropagation();
-        toggleEdit();
+        if(!store.listNameActive && !store.listIdMarkedForDeletion){
+            toggleEdit();
+        }
     }
 
     function toggleEdit() {
+        
         let newActive = !editActive;
         if (newActive) {
-            store.setIsListNameEditActive();
+            store.setIsListNameEditActive(idNamePair._id);
         }
         setEditActive(newActive);
     }
 
     function handleMarkForDeletion(event) {
         event.stopPropagation();
-        toggleMarkedForDeletion();
+        if(!store.listNameActive && !store.listIdMarkedForDeletion){
+            toggleMarkedForDeletion();
+        }
     }
 
     function toggleMarkedForDeletion() {
         let newMarkedForDeletion = !markedForDeletion;
-        setMarkedForDeletion(newMarkedForDeletion)
+        setMarkedForDeletion(newMarkedForDeletion);
+        store.setDeleteListId();
     }
 
     function handleDeleteList(event){
@@ -60,11 +70,19 @@ function ListCard(props) {
     function handleDialogClose(event){
         event.stopPropagation();
         setMarkedForDeletion(false);
+        store.setDeleteListId();
     }
 
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
+            console.log("pressed enter");
+            if(text == ""){
+                console.log("text is empty string?");
+                console.log(idNamePair.name);
+                setText(idNamePair.name);
+                console.log("text value right now: " + text);
+            }
             store.changeListName(id, text);
             toggleEdit();
         }
@@ -73,13 +91,44 @@ function ListCard(props) {
         setText(event.target.value );
     }
 
+
+
+    useEffect(()=>{
+        if(idNamePair._id === store.newPlaylistId){
+            console.log("idnamepair is equal to the one in store");
+            toggleEdit();
+        }
+        else{
+            console.log("idnamepair is NOT equal to the one in store in playlist with id: " + idNamePair._id + "when comparing to: " + store.newPlaylistId);
+            if(editActive){
+                setEditActive(!editActive)
+            }
+        }
+
+        // if(store.listNameActive && !(idNamePair._id === store.listIdBeingEdited)){
+        //     console.log("listName is active! ");
+        //     console.log("idnamepair is NOT equal to the one in store in playlist with id: " + idNamePair._id + "when comparing to: " + store.listIdBeingEdited);
+        //     setListCardButtonClassName(listCardButtonClassName + " disabled");
+        //     if(editActive){
+        //         setEditActive(!editActive)
+        //     }
+        // }
+        // else{
+        //     console.log("idnamepair IS equal to the one in store in playlist with id: " + idNamePair._id + "when comparing to: " + store.listIdBeingEdited);
+        //     setListCardButtonClassName("list-card-button");
+        //     // toggleEdit();
+        // }
+        }, [store.newPlaylistId]
+    );
+
+
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
     }
     let cardStatus = false;
     if (store.isListNameEditActive) {
-        cardStatus = true;
+        listCardButtonClassName += " disabled";
     }
     let cardElement =
         <div
@@ -94,18 +143,16 @@ function ListCard(props) {
                 {idNamePair.name}
             </span>
             <input
-                disabled={cardStatus}
                 type="button"
                 id={"delete-list-" + idNamePair._id}
-                className="list-card-button"
+                className={listCardButtonClassName}
                 onClick={handleMarkForDeletion}
                 value={"\u2715"}
             />
             <input
-                disabled={cardStatus}
                 type="button"
                 id={"edit-list-" + idNamePair._id}
-                className="list-card-button"
+                className={listCardButtonClassName}
                 onClick={handleToggleEdit}
                 value={"\u270E"}
             />
@@ -129,20 +176,35 @@ function ListCard(props) {
             </dialog>
         </div>;
 
-    if (editActive) {
-        cardElement =
-            <input
-                id={"list-" + idNamePair._id}
-                className='list-card'
-                type='text'
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
-            />;
+    let cardElement2 =  
+        <input
+        id={"list-" + idNamePair._id}
+        className='list-card'
+        type='text'
+        onKeyPress={handleKeyPress}
+        onChange={handleUpdateText}
+        onBlur={handleUpdateText}
+        defaultValue={idNamePair.name}
+        />;
+
+    if (editActive || idNamePair._id === newListId) {
+        console.log("editActive: " + editActive);
+        console.log("newListId: " + newListId);
+        console.log("idNamePair._id: " + idNamePair._id);
+        console.log("newList id equal?: " + idNamePair._id === newListId);
+        // cardElement =
+        //     <input
+        //         id={"list-" + idNamePair._id}
+        //         className='list-card'
+        //         type='text'
+        //         onKeyPress={handleKeyPress}
+        //         onChange={handleUpdateText}
+        //         defaultValue={idNamePair.name}
+        //     />;
     }
 
     return (
-        cardElement
+        (editActive? cardElement2:cardElement)
     );
 }
 

@@ -160,6 +160,8 @@ input {
 
 .disabled {
   background-color: lightgray;
+  opacity: 0.75;
+  cursor: not-allowed;
 }
 
 .disabled:hover {

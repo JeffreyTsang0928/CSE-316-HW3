@@ -16,7 +16,12 @@ const ListSelector = () => {
     }, []);
 
     function handleCreateNewList() {
-        store.createNewList();
+        if(store.listNameActive){
+            console.log("button disabled");
+        }
+        else{
+            store.createNewList();
+        }
     }
     let listCard = "";
     if (store) {
@@ -24,10 +29,14 @@ const ListSelector = () => {
             <ListCard
                 key={pair._id}
                 idNamePair={pair}
+                newListId = {store.newPlaylistId}
                 selected={false}
             />
         ))
     }
+    let enabledButtonClass = "add-list-button";
+    let disabledButtonClass = "add-list-button disabled";
+    let editingListNameActive = store.listNameActive;
     return (
         <div id="playlist-selector">
             <div id="list-selector-list">
@@ -36,7 +45,7 @@ const ListSelector = () => {
                     type="button"
                     id="add-list-button"
                     onClick={handleCreateNewList}
-                    className="playlister-button"
+                    className={!editingListNameActive? enabledButtonClass : disabledButtonClass}
                     value="+" />
                 Your Lists
             </div>                {
